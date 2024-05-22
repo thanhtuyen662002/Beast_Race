@@ -1,0 +1,9 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Beast_Race" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">#0F5132</item>
+    </style>
+
+    <style name="Theme.Beast_Race" parent="Base.Theme.Beast_Race" />
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Thumb mặc định của SeekBar -->
+    <item android:id="@android:id/background"
+        android:drawable="@drawable/small_lion" />
+    <!-- Ảnh gif -->
+    <item android:id="@android:id/secondaryProgress">
+        <pl.droidsonroids.gif.GifDrawable
+            android:src="@drawable/small_lion" />
+    </item>
+</layer-list>
