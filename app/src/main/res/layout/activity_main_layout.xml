@@ -78,14 +78,17 @@
                 android:textColor="#BB0000"
                 android:textSize="20sp" />
             <TextView
-                android:id="@+id/topUp"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:gravity="center"
+                android:paddingLeft="70dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Top-up: "
+                android:fontFamily="sans-serif-condensed-medium"
                 android:textColor="@color/white"
-                android:text="+"
-                android:background="#0F5132"
-                app:Radius="100dp"/>
+                android:textSize="18sp" />
+            <EditText
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -93,7 +96,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:background="@color/medium_transparent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
@@ -327,5 +330,17 @@
             android:text="Làm mới"
             android:textSize="18sp"
             app:cornerRadius="10dp" />
+
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/guideline"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/icons8_question_mark_90" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

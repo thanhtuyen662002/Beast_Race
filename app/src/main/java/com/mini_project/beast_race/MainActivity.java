@@ -2,8 +2,7 @@ package com.mini_project.beast_race;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -14,22 +13,11 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
-//    ListView listView;
-//    ArrayList<Animal> animals;
-//    CustomListViewAdapter adapter;
-//    Button btn_start;
-//    TextView point;
-//    CheckBox checkBox1, checkBox2, checkBox3, checkBox4, checkBox5;
-//    SeekBar seekBar1, seekBar2, seekBar3, seekBar4, seekBar5;
-//    EditText bet1, bet2, bet3, bet4, bet5;
-//    private TextView currentMoney;
-//    private int currentMoneyAfter = 0;
-//    private Handler handler1 = new Handler(), handler2 = new Handler(), handler3 = new Handler(), handler4 = new Handler(), handler5 = new Handler();;
-//    private int currentProgress1 = 0, currentProgress2 = 0, currentProgress3 = 0, currentProgress4 = 0, currentProgress5 = 0;
-//    private boolean isRaceFinished = false;
     final boolean[] isValueChanged = {false};
     private TextView point;
     private Button btn_start;
@@ -57,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             handler[i] = new Handler();
             seekBar[i].setMax(1000);
         }
-        point.setText("Current Money: " + currentMoneyAfter);
+        point.setText(currentMoneyAfter + "");
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,30 +66,32 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-        for (int i = 0; i < 5; i++) {
-            final int index = i;
-            bet[i].addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
+//        for (int i = 0; i < 5; i++) {
+//            final int index = i;
+//            bet[i].addTextChangedListener(new TextWatcher() {
+//                @Override
+//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                }
+//
+//                @Override
+//                public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                    String text = s.toString();
+//                    if (!text.equals("0")) {
+//                        isValueChanged[0] = true;
+//                    }
+//                }
+//
+//                @Override
+//                public void afterTextChanged(Editable s) {
+//                    String text = s.toString();
+//                    if (text.isEmpty()) {
+//                        isValueChanged[0] = false;
+//                    }
+//                }
+//            });
+//        }
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    String text = s.toString();
-                    if (!text.equals("0")) {
-                        isValueChanged[0] = true;
-                    }
-                }
 
-                @Override
-                public void afterTextChanged(Editable s) {
-                    String text = s.toString();
-                    if (text.isEmpty()) {
-                        isValueChanged[0] = false;
-                    }
-                }
-            });
-        }
 //        addAnimals();
 //        adapter = new CustomListViewAdapter(this, R.layout.activity_custom_list_view, animals, btn_start);
 //        listView.setAdapter(adapter);
@@ -130,32 +120,53 @@ public class MainActivity extends AppCompatActivity {
                         int randomIncrement = new Random().nextInt(5) + 1;
                         currentProgress[index] += randomIncrement;
                         seekBar[index].setProgress(currentProgress[index]);
-                        handler[index].postDelayed(this, 100);
-                    } else {
-                        checkRaceCompletion();
+                        if (currentProgress[index] >= 1000) {
+                            isRaceFinished = true;
+                            updateCurrentMoneyTextView();
+                        } else {
+                            handler[index].postDelayed(this, 100);
+                        }
                     }
                 }
             }, 100);
         }
     }
 
-    private void checkRaceCompletion() {
-        if (currentProgress[0] >= 1000 || currentProgress[1] >= 1000 || currentProgress[2] >= 1000) {
-            isRaceFinished = true;
-            int betAmount1 = Integer.parseInt(bet[0].getText().toString());
-            int betAmount2 = Integer.parseInt(bet[1].getText().toString());
-            int betAmount3 = Integer.parseInt(bet[2].getText().toString());
-            if (currentProgress[0] >= 1000) {
-                currentMoneyAfter += 2 * betAmount1;
-            } else if (currentProgress[1] >= 1000) {
-                currentMoneyAfter += 2 * betAmount2;
-            } else if (currentProgress[2] >= 1000) {
-                currentMoneyAfter += 2 * betAmount3;
+    private boolean checkRaceCompletion() {
+        for (int i = 0; i < 5; i++){
+            if (currentProgress[i] >= 1000) {
+                isRaceFinished = true;
             }
-            updateCurrentMoneyTextView();
         }
+        return isRaceFinished;
     }
     private void updateCurrentMoneyTextView() {
-        point.setText("Current Money: " + currentMoneyAfter);
+        EditText betAmount1 = findViewById(R.id.ed1);
+        EditText betAmount2 = findViewById(R.id.ed2);
+        EditText betAmount3 = findViewById(R.id.ed3);
+        EditText betAmount4 = findViewById(R.id.ed4);
+        EditText betAmount5 = findViewById(R.id.ed5);
+        if (currentProgress[0] >= 1000) {
+            if (!betAmount1.getText().toString().isEmpty()){
+                currentMoneyAfter += 2 * Integer.parseInt(betAmount1.getText().toString());
+            }
+        } else if (currentProgress[1] >= 1000) {
+            if (!betAmount1.getText().toString().isEmpty()){
+                currentMoneyAfter += 2 * Integer.parseInt(betAmount2.getText().toString());
+            }
+        } else if (currentProgress[2] >= 1000) {
+            if (!betAmount1.getText().toString().isEmpty()){
+                currentMoneyAfter += 2 * Integer.parseInt(betAmount3.getText().toString());
+            }
+        } else if (currentProgress[3] >= 1000) {
+            if (!betAmount1.getText().toString().isEmpty()){
+                currentMoneyAfter += 2 * Integer.parseInt(betAmount4.getText().toString());
+            }
+        } else if (currentProgress[4] >= 1000) {
+            if (!betAmount1.getText().toString().isEmpty()){
+                currentMoneyAfter += 2 * Integer.parseInt(betAmount5.getText().toString());
+            }
+        }
+        point.setText(currentMoneyAfter + "");
     }
 }
