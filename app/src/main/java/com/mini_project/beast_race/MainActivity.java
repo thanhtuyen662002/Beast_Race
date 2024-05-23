@@ -79,50 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-//        for (int i = 0; i < 5; i++) {
-//            final int index = i;
-//            bet[i].addTextChangedListener(new TextWatcher() {
-//                @Override
-//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                }
-//
-//                @Override
-//                public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                    String text = s.toString();
-//                    if (!text.equals("0")) {
-//                        isValueChanged[0] = true;
-//                    }
-//                }
-//
-//                @Override
-//                public void afterTextChanged(Editable s) {
-//                    String text = s.toString();
-//                    if (text.isEmpty()) {
-//                        isValueChanged[0] = false;
-//                    }
-//                }
-//            });
-//        }
-
-
-//        addAnimals();
-//        adapter = new CustomListViewAdapter(this, R.layout.activity_custom_list_view, animals, btn_start);
-//        listView.setAdapter(adapter);
-//        listView = (ListView) findViewById(R.id.custom_listView);
-
-
-        // Xử lý sự kiện cho các thành phần
-
     }
-
-//    private void addAnimals() {
-//        animals = new ArrayList<Animal>();
-//        animals.add(new Animal(1, "elephant", R.drawable.small_elephant));
-//        animals.add(new Animal(3, "horse", R.drawable.small_horse));
-//        animals.add(new Animal(4, "lion", R.drawable.small_lion));
-//        animals.add(new Animal(6, "rhino", R.drawable.small_rhino));
-//        animals.add(new Animal(8, "zebra", R.drawable.small_zebra));
-//    }
     private void startRace() {
         for (int i = 0; i < 5; i++) {
             final int index = i;
@@ -130,10 +87,12 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     if (!isRaceFinished && currentProgress[index] < 1000) {
+                        Log.e("STARTRACE", "random");
                         int randomIncrement = new Random().nextInt(5) + 1;
                         currentProgress[index] += randomIncrement;
                         seekBar[index].setProgress(currentProgress[index]);
                         if (currentProgress[index] >= 1000) {
+                            Log.e("STARTRACE", "endrandom");
                             isRaceFinished = true;
                             updateCurrentMoneyTextView();
                         } else {
@@ -164,21 +123,23 @@ public class MainActivity extends AppCompatActivity {
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount1.getText().toString());
             }
         } else if (currentProgress[1] >= 1000) {
-            if (!betAmount1.getText().toString().isEmpty()){
+            if (!betAmount2.getText().toString().isEmpty()){
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount2.getText().toString());
             }
         } else if (currentProgress[2] >= 1000) {
-            if (!betAmount1.getText().toString().isEmpty()){
+            if (!betAmount3.getText().toString().isEmpty()){
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount3.getText().toString());
             }
         } else if (currentProgress[3] >= 1000) {
-            if (!betAmount1.getText().toString().isEmpty()){
+            if (!betAmount4.getText().toString().isEmpty()){
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount4.getText().toString());
             }
         } else if (currentProgress[4] >= 1000) {
-            if (!betAmount1.getText().toString().isEmpty()){
+            if (!betAmount5.getText().toString().isEmpty()){
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount5.getText().toString());
             }
+        } else {
+            return;
         }
         point.setText(currentMoneyAfter + "");
     }
