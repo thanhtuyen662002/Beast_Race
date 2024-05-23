@@ -95,23 +95,23 @@
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/btn_next"
+        android:id="@+id/btn_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="304dp"
-        android:text="Next"
+        android:text="Back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <Button
-        android:id="@+id/btn_back"
+        android:id="@+id/btn_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="304dp"
         android:layout_marginTop="16dp"
-        android:text="Back"
+        android:text="Next"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
