@@ -1,5 +1,6 @@
 package com.mini_project.beast_race;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -168,5 +169,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         point.setText(currentMoneyAfter + "");
+        Intent intent = new Intent(MainActivity.this, Notification.class);
+        intent.putExtra("TienThuong", currentMoneyAfter);
+        startActivity(intent);
     }
+
 }

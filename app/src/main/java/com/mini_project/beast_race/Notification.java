@@ -16,12 +16,16 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class Notification extends AppCompatActivity {
     // truyền giá trị tổng tiền thưởng
-     public int TienThuong = 0;
+     public int TienThuong;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_notification);
+
+        Intent intent = getIntent();
+        TienThuong = intent.getIntExtra("TienThuong", 0);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -32,7 +36,7 @@ public class Notification extends AppCompatActivity {
         TextView thongBaoTextView = findViewById(R.id.ThongBao);
         TextView tienthuong = findViewById(R.id.textView);
         TextView giaTriTienThuong = findViewById(R.id.Tienthuong);
-        giaTriTienThuong.setText(TienThuong);
+        giaTriTienThuong.setText(String.valueOf(TienThuong));
         if(TienThuong == 0){
             thongBaoTextView.setText("Thất bại");
             thongBaoTextView.setTextColor(getResources().getColor(R.color.red));
