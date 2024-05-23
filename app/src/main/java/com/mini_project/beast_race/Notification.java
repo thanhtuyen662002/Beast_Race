@@ -19,6 +19,7 @@ public class Notification extends AppCompatActivity {
     // truyền giá trị tổng tiền thưởng
      public int TienThuong;
     public int WinningIndex;
+    public int PointTotal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,9 +27,9 @@ public class Notification extends AppCompatActivity {
         setContentView(R.layout.activity_notification);
 
         Intent intent = getIntent();
-        TienThuong = intent.getIntExtra("TienThuong", 0);
+        TienThuong = intent.getIntExtra("betAmount", 0);
         WinningIndex = intent.getIntExtra("WinningIndex", 0);
-
+        PointTotal = intent.getIntExtra("TienThuong", 0);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -40,7 +41,10 @@ public class Notification extends AppCompatActivity {
         TextView tienthuong = findViewById(R.id.textView);
         TextView giaTriTienThuong = findViewById(R.id.Tienthuong);
         ImageView Animalview = findViewById(R.id.Aminal);
+        TextView pointTotal = findViewById(R.id.point);
+        pointTotal.setText(String.valueOf(PointTotal));
         giaTriTienThuong.setText(String.valueOf(TienThuong));
+
 
         if(TienThuong == 0 || TienThuong < 0){
             thongBaoTextView.setText("Thất bại");
@@ -51,25 +55,26 @@ public class Notification extends AppCompatActivity {
         }else{
             switch (WinningIndex){
                 case 1:
-                    Animalview.setImageResource(R.drawable.small_lion);
+                    Animalview.setImageResource(R.drawable.small_zebra);
 
                 case 2:
-                    Animalview.setImageResource(R.drawable.small_elephant);
+                    Animalview.setImageResource(R.drawable.small_horse);
 
                 case 3:
                     Animalview.setImageResource(R.drawable.small_rhino);
 
                 case 4:
-                    Animalview.setImageResource(R.drawable.small_horse);
+                    Animalview.setImageResource(R.drawable.small_elephant);
 
                 case 5:
-                    Animalview.setImageResource(R.drawable.small_zebra);
+                    Animalview.setImageResource(R.drawable.small_lion);
             }
         }
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Notification.this, MainActivity.class);
+                intent.putExtra("PointTotal", PointTotal);
                 startActivity(intent);
             }
         });
