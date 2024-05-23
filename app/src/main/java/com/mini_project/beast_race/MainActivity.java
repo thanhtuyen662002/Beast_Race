@@ -1,5 +1,6 @@
 package com.mini_project.beast_race;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -7,12 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler[] handler = new Handler[5];
     private int[] currentProgress = new int[5];
     private boolean isRaceFinished = false;
+    private ImageView guide;
 
 
     @Override
@@ -38,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         point = findViewById(R.id.point);
 
         btn_start = (Button) findViewById(R.id.btn_start);
+        guide = (ImageView) findViewById((R.id.guideline));
         for (int i = 0; i < 5; i++) {
             checkBox[i] = findViewById(getResources().getIdentifier("cb" + (i + 1), "id", getPackageName()));
             seekBar[i] = findViewById(getResources().getIdentifier("sb" + (i + 1), "id", getPackageName()));
@@ -46,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
             seekBar[i].setMax(1000);
         }
         point.setText(currentMoneyAfter + "");
+        guide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, GuideActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

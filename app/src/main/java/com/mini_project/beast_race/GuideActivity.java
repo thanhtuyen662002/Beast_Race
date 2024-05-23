@@ -14,7 +14,7 @@ public class GuideActivity extends AppCompatActivity {
     private TextView messageEdittext;
     private TextView messageButton;
     private TextView messageButton2;
-    private Button btnNext;
+    private Button btnNext, btnBack;
     private int currentMessage = 0;
 
     @Override
@@ -27,7 +27,7 @@ public class GuideActivity extends AppCompatActivity {
         messageButton = findViewById(R.id.message_button);
         messageButton2 = findViewById(R.id.message_button2);
         btnNext = findViewById(R.id.btn_next);
-
+        btnBack = findViewById(R.id.btn_back);
 
 
         btnNext.setOnClickListener(new View.OnClickListener() {
@@ -35,13 +35,19 @@ public class GuideActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (v.getId() == R.id.btn_next) {
                     showNextMessage();
-                } else if (v.getId() == R.id.btn_back) {
-                    goBack();
                 }
             }
 
 
+        }
+        );
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goBack();
+            }
         });
+
     }
 
     private void goBack() {
