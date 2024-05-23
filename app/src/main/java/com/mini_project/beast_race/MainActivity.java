@@ -66,50 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-//        for (int i = 0; i < 5; i++) {
-//            final int index = i;
-//            bet[i].addTextChangedListener(new TextWatcher() {
-//                @Override
-//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                }
-//
-//                @Override
-//                public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                    String text = s.toString();
-//                    if (!text.equals("0")) {
-//                        isValueChanged[0] = true;
-//                    }
-//                }
-//
-//                @Override
-//                public void afterTextChanged(Editable s) {
-//                    String text = s.toString();
-//                    if (text.isEmpty()) {
-//                        isValueChanged[0] = false;
-//                    }
-//                }
-//            });
-//        }
-
-
-//        addAnimals();
-//        adapter = new CustomListViewAdapter(this, R.layout.activity_custom_list_view, animals, btn_start);
-//        listView.setAdapter(adapter);
-//        listView = (ListView) findViewById(R.id.custom_listView);
-
-
-        // Xử lý sự kiện cho các thành phần
-
     }
-
-//    private void addAnimals() {
-//        animals = new ArrayList<Animal>();
-//        animals.add(new Animal(1, "elephant", R.drawable.small_elephant));
-//        animals.add(new Animal(3, "horse", R.drawable.small_horse));
-//        animals.add(new Animal(4, "lion", R.drawable.small_lion));
-//        animals.add(new Animal(6, "rhino", R.drawable.small_rhino));
-//        animals.add(new Animal(8, "zebra", R.drawable.small_zebra));
-//    }
     private void startRace() {
         for (int i = 0; i < 5; i++) {
             final int index = i;
