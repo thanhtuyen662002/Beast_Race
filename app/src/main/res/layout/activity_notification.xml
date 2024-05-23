@@ -100,7 +100,8 @@
         android:textAlignment="center"
         android:textColor="@color/black"
         tools:layout_editor_absoluteX="155dp"
-        tools:layout_editor_absoluteY="323dp" />
+        tools:layout_editor_absoluteY="393dp"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/Tienthuong"
@@ -108,10 +109,12 @@
         android:layout_height="110dp"
         android:fontFamily="sans-serif-black"
         android:text="100"
+        android:textAlignment="center"
         android:textColor="@color/bg_text"
         android:textSize="100sp"
         tools:layout_editor_absoluteX="105dp"
-        tools:layout_editor_absoluteY="343dp" />
+        tools:layout_editor_absoluteY="413dp"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/ThongBao"
@@ -121,5 +124,15 @@
         android:textColor="@color/bg_text"
         android:textSize="40sp"
         tools:layout_editor_absoluteX="105dp"
-        tools:layout_editor_absoluteY="250dp" />
+        tools:layout_editor_absoluteY="250dp"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/Aminal"
+        android:layout_width="79dp"
+        android:layout_height="68dp"
+        tools:layout_editor_absoluteX="166dp"
+        tools:layout_editor_absoluteY="317dp"
+        tools:srcCompat="@tools:sample/avatars"
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

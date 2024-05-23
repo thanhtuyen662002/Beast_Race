@@ -147,30 +147,37 @@ public class MainActivity extends AppCompatActivity {
         EditText betAmount3 = findViewById(R.id.ed3);
         EditText betAmount4 = findViewById(R.id.ed4);
         EditText betAmount5 = findViewById(R.id.ed5);
+       int winningIndex = 0;
         if (currentProgress[0] >= 1000) {
             if (!betAmount1.getText().toString().isEmpty()){
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount1.getText().toString());
+                winningIndex = 1;
             }
         } else if (currentProgress[1] >= 1000) {
             if (!betAmount1.getText().toString().isEmpty()){
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount2.getText().toString());
+                winningIndex = 2;
             }
         } else if (currentProgress[2] >= 1000) {
             if (!betAmount1.getText().toString().isEmpty()){
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount3.getText().toString());
+                winningIndex = 3;
             }
         } else if (currentProgress[3] >= 1000) {
             if (!betAmount1.getText().toString().isEmpty()){
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount4.getText().toString());
+                winningIndex = 4;
             }
         } else if (currentProgress[4] >= 1000) {
             if (!betAmount1.getText().toString().isEmpty()){
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount5.getText().toString());
+                winningIndex = 5;
             }
         }
         point.setText(currentMoneyAfter + "");
         Intent intent = new Intent(MainActivity.this, Notification.class);
         intent.putExtra("TienThuong", currentMoneyAfter);
+        intent.putExtra("WinningIndex", winningIndex);
         startActivity(intent);
     }
 

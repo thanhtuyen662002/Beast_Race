@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -17,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class Notification extends AppCompatActivity {
     // truyền giá trị tổng tiền thưởng
      public int TienThuong;
+    public int WinningIndex;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +27,7 @@ public class Notification extends AppCompatActivity {
 
         Intent intent = getIntent();
         TienThuong = intent.getIntExtra("TienThuong", 0);
+        WinningIndex = intent.getIntExtra("WinningIndex", 0);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -36,13 +39,32 @@ public class Notification extends AppCompatActivity {
         TextView thongBaoTextView = findViewById(R.id.ThongBao);
         TextView tienthuong = findViewById(R.id.textView);
         TextView giaTriTienThuong = findViewById(R.id.Tienthuong);
+        ImageView Animalview = findViewById(R.id.Aminal);
         giaTriTienThuong.setText(String.valueOf(TienThuong));
-        if(TienThuong == 0){
+
+        if(TienThuong == 0 || TienThuong < 0){
             thongBaoTextView.setText("Thất bại");
             thongBaoTextView.setTextColor(getResources().getColor(R.color.red));
             tienthuong.setVisibility(View.VISIBLE);
             giaTriTienThuong.setVisibility(View.VISIBLE);
 
+        }else{
+            switch (WinningIndex){
+                case 1:
+                    Animalview.setImageResource(R.drawable.small_lion);
+
+                case 2:
+                    Animalview.setImageResource(R.drawable.small_elephant);
+
+                case 3:
+                    Animalview.setImageResource(R.drawable.small_rhino);
+
+                case 4:
+                    Animalview.setImageResource(R.drawable.small_horse);
+
+                case 5:
+                    Animalview.setImageResource(R.drawable.small_zebra);
+            }
         }
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
