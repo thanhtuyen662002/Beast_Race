@@ -55,19 +55,19 @@ public class Notification extends AppCompatActivity {
         }else{
             switch (WinningIndex){
                 case 1:
-                    Animalview.setImageResource(R.drawable.small_zebra);
+                    Animalview.setImageResource(R.drawable.small_lion);
 
                 case 2:
-                    Animalview.setImageResource(R.drawable.small_horse);
+                    Animalview.setImageResource(R.drawable.small_elephant);
 
                 case 3:
                     Animalview.setImageResource(R.drawable.small_rhino);
 
                 case 4:
-                    Animalview.setImageResource(R.drawable.small_elephant);
+                    Animalview.setImageResource(R.drawable.small_horse);
 
                 case 5:
-                    Animalview.setImageResource(R.drawable.small_lion);
+                    Animalview.setImageResource(R.drawable.small_zebra);
             }
         }
         btnStart.setOnClickListener(new View.OnClickListener() {
