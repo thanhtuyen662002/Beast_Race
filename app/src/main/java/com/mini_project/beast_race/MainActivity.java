@@ -258,12 +258,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private boolean checkRaceCompletion() {
-        for (int i = 0; i < 5; i++) {
-            if (currentProgress[i] >= 1000) {
-                isRaceFinished = true;
-            }
-
     private void resetRace() {
         isResetting = true;
         for (int i = 0; i < 5; i++) {
