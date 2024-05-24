@@ -86,8 +86,14 @@
                 android:textColor="@color/white"
                 android:textSize="18sp" />
             <EditText
+                android:id="@+id/topUp"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="0"
+                android:inputType="number"
+                android:textColor="#BB0000"
+                android:textSize="20sp"
                 android:backgroundTint="@color/white"/>
         </LinearLayout>
     </LinearLayout>
