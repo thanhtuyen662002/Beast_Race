@@ -8,4 +8,6 @@
     <color name="bg_text">#0F5132</color>
     <color name="transparent">#00000000</color>
     <color name="medium_transparent">#25000000</color>
+    <color name="red">#F44336</color>
+
 </resources>

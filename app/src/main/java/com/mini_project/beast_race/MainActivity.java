@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main_layout);
+        Intent intent = getIntent();
+        currentMoneyAfter = intent.getIntExtra("PointTotal", 0);
         point = findViewById(R.id.point);
         currentMoneyAfter = Integer.parseInt(point.getText().toString());
         topUp = findViewById(R.id.topUp);
@@ -278,29 +280,51 @@ public class MainActivity extends AppCompatActivity {
         EditText betAmount3 = findViewById(R.id.ed3);
         EditText betAmount4 = findViewById(R.id.ed4);
         EditText betAmount5 = findViewById(R.id.ed5);
+       int winningIndex = 0;
+        int betAmount = 0;
         if (currentProgress[0] >= 1000) {
             if (!betAmount1.getText().toString().isEmpty()) {
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount1.getText().toString());
+                winningIndex = 1;
+                betAmount = 2 * Integer.parseInt(betAmount1.getText().toString());
             }
         } else if (currentProgress[1] >= 1000) {
             if (!betAmount2.getText().toString().isEmpty()) {
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount2.getText().toString());
+                winningIndex = 2;
+                betAmount = 2 * Integer.parseInt(betAmount2.getText().toString());
+
             }
         } else if (currentProgress[2] >= 1000) {
             if (!betAmount3.getText().toString().isEmpty()) {
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount3.getText().toString());
+                winningIndex = 3;
+                betAmount = 2 * Integer.parseInt(betAmount3.getText().toString());
+
             }
         } else if (currentProgress[3] >= 1000) {
             if (!betAmount4.getText().toString().isEmpty()) {
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount4.getText().toString());
+                winningIndex = 4;
+                betAmount = 2 * Integer.parseInt(betAmount4.getText().toString());
+
             }
         } else if (currentProgress[4] >= 1000) {
             if (!betAmount5.getText().toString().isEmpty()) {
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount5.getText().toString());
+                winningIndex = 5;
+                betAmount = 2 * Integer.parseInt(betAmount5.getText().toString());
+
             }
         } else {
             return;
         }
         point.setText(String.valueOf(currentMoneyAfter));
+        Intent intent = new Intent(MainActivity.this, Notification.class);
+        intent.putExtra("TienThuong", currentMoneyAfter);
+        intent.putExtra("WinningIndex", winningIndex);
+        intent.putExtra("betAmount", betAmount);
+        startActivity(intent);
     }
+
 }
