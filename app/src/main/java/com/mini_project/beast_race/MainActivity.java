@@ -1,12 +1,16 @@
 package com.mini_project.beast_race;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -27,6 +31,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
     final boolean[] isValueChanged = {false};
     private TextView point;
+    private EditText topUp;
     private Button btn_start, btn_reset;
     private CheckBox[] checkBox = new CheckBox[5];
     private SeekBar[] seekBar = new SeekBar[5];
@@ -37,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isRaceFinished = false;
     private ImageView guide;
     boolean anyBetValueChanged = false;
+    private boolean isResetting = false;
 
 
     @Override
@@ -45,7 +51,39 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main_layout);
         point = findViewById(R.id.point);
+        currentMoneyAfter = Integer.parseInt(point.getText().toString());
+        topUp = findViewById(R.id.topUp);
+        topUp.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus && topUp.getText().toString().equals("0")) {
+                    topUp.setText("");
+                } else if (!hasFocus && topUp.getText().toString().isEmpty()) {
+                    topUp.setText("0");
+                }
+            }
+        });
+        topUp.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE|| actionId == EditorInfo.IME_ACTION_NEXT) {
+                    // Lấy số tiền được nhập từ EditText
+                    String topUpAmountStr = topUp.getText().toString();
+                    if (!topUpAmountStr.isEmpty()) {
+                        int topUpAmount = Integer.parseInt(topUpAmountStr);
+                        currentMoneyAfter += topUpAmount;
+                        point.setText(String.valueOf(currentMoneyAfter));
 
+                    }
+                    topUp.setText("0");
+                    topUp.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(topUp.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
         btn_start = (Button) findViewById(R.id.btn_start);
         btn_reset = (Button) findViewById(R.id.btn_reset);
         guide = (ImageView) findViewById((R.id.guideline));
@@ -69,14 +107,18 @@ public class MainActivity extends AppCompatActivity {
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentMoneyAfter = Integer.parseInt(point.getText().toString());
+
+                int totalBetAmount = 0;
                 for (int i = 0; i < 5; i++) {
                     if (checkBox[i].isChecked() && !bet[i].getText().toString().isEmpty()) {
-                        anyBetValueChanged = true;
-                        break;
+                        totalBetAmount += Integer.parseInt(bet[i].getText().toString());
                     }
                 }
-                isValueChanged[0] = anyBetValueChanged;
+                // Trừ tổng số tiền đã đặt cược khỏi số tiền hiện tại
+                currentMoneyAfter -= totalBetAmount;
+
+                // Cập nhật số tiền hiện tại trên TextView
+                point.setText(String.valueOf(currentMoneyAfter));
                 startRace();
             }
         });
@@ -87,9 +129,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
                         bet[index].setEnabled(true);
-                        if (!isValueChanged[0]) {
-                            bet[index].setText("");
-                        }
+                        bet[index].setText("");
+                        bet[index].requestFocus();
                     } else {
                         bet[index].setEnabled(false);
                         bet[index].setText("0");
@@ -99,32 +140,54 @@ public class MainActivity extends AppCompatActivity {
             bet[i].addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    // Không cần xử lý trước khi văn bản thay đổi
                 }
-
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    // Không cần xử lý khi văn bản thay đổi
                 }
-
                 @Override
                 public void afterTextChanged(Editable s) {
-                    // Sau khi văn bản đã thay đổi, cập nhật số tiền hiện tại
-                    String betText = s.toString();
-                    int totalBetAmount = 0;
-                    for (int i = 0; i < 5; i++) {
-                        if (checkBox[i].isChecked() && !bet[i].getText().toString().isEmpty()) {
-                            totalBetAmount += Integer.parseInt(bet[i].getText().toString());
+                    if (isResetting){
+                        return;
+                    } else{
+                        String betText = s.toString();
+                        int totalBetAmount = 0;
+                        for (int i = 0; i < 5; i++) {
+                            if (checkBox[i].isChecked() && !bet[i].getText().toString().isEmpty()) {
+                                totalBetAmount += Integer.parseInt(bet[i].getText().toString());
+                            }
+                        }
+                        if (!betText.isEmpty()) {
+                            // Kiểm tra điều kiện đặt cược so với số tiền hiện tại
+                            if (totalBetAmount > currentMoneyAfter) {
+                                // Hiển thị thông báo cho người dùng
+                                Toast.makeText(MainActivity.this, "Số tiền đặt cược vượt quá số tiền hiện có", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
                         }
                     }
-                    if (!betText.isEmpty()) {
-                        // Kiểm tra điều kiện đặt cược so với số tiền hiện tại
-                        if (totalBetAmount > currentMoneyAfter) {
-                            // Hiển thị thông báo cho người dùng
-                            Toast.makeText(MainActivity.this, "Số tiền đặt cược vượt quá số tiền hiện có", Toast.LENGTH_SHORT).show();
-                            return;
+                }
+            });
+            bet[i].setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_DONE|| actionId == EditorInfo.IME_ACTION_NEXT) {
+                        // Lấy số tiền cược được nhập từ EditText
+                        String betAmountStr = bet[index].getText().toString();
+                        if (!betAmountStr.isEmpty()) {
+                            int betAmount = Integer.parseInt(betAmountStr);
+
+                            // Kiểm tra điều kiện đặt cược so với số tiền hiện tại
+                            if (betAmount > currentMoneyAfter) {
+                                Toast.makeText(MainActivity.this, "Số tiền đặt cược vượt quá số tiền hiện có", Toast.LENGTH_SHORT).show();
+                                return true; // Báo hiệu rằng sự kiện đã được xử lý
+                            }
+                            bet[index].clearFocus();
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(bet[index].getWindowToken(), 0);
                         }
+                        return true;
                     }
+                    return false;
                 }
             });
         }
@@ -137,17 +200,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     private void startRace() {
-        int totalBetAmount = 0;
+        btn_reset.setClickable(false);
         for (int i = 0; i < 5; i++) {
-            if (checkBox[i].isChecked() && !bet[i].getText().toString().isEmpty()) {
-                totalBetAmount += Integer.parseInt(bet[i].getText().toString());
-            }
+            checkBox[i].setClickable(false);
+            bet[i].setClickable(false);
         }
-        // Trừ tổng số tiền đã đặt cược khỏi số tiền hiện tại
-        currentMoneyAfter -= totalBetAmount;
-
-        // Cập nhật số tiền hiện tại trên TextView
-        point.setText(String.valueOf(currentMoneyAfter));
+        btn_start.setEnabled(false);
         for (int i = 0; i < 5; i++) {
             final int index = i;
             handler[i].postDelayed(new Runnable() {
@@ -162,6 +220,13 @@ public class MainActivity extends AppCompatActivity {
                             Log.e("STARTRACE", "endrandom");
                             isRaceFinished = true;
                             updateCurrentMoneyTextView();
+                            btn_reset.setClickable(true);
+                            for (int i = 0; i < 5; i++) {
+                                checkBox[i].setClickable(true);
+                                if (checkBox[i].isChecked()) {
+                                    bet[i].setClickable(true);
+                                }
+                            }
                         } else {
                             handler[index].postDelayed(this, 100);
                         }
@@ -169,10 +234,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, 100);
         }
-        btn_start.setEnabled(false);
     }
     private void resetRace() {
-        // Đặt lại vị trí của tất cả các seekBar về 0
+        isResetting = true;
         for (int i = 0; i < 5; i++) {
             currentProgress[i] = 0;
             checkBox[i].setChecked(false);
@@ -181,6 +245,7 @@ public class MainActivity extends AppCompatActivity {
         }
         isRaceFinished = false;
         btn_start.setEnabled(true);
+        isResetting = false;
     }
 
     private void updateCurrentMoneyTextView() {
