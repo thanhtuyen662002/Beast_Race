@@ -56,18 +56,23 @@ public class Notification extends AppCompatActivity {
             switch (WinningIndex){
                 case 1:
                     Animalview.setImageResource(R.drawable.small_lion);
-
+                    break;
                 case 2:
                     Animalview.setImageResource(R.drawable.small_elephant);
+                    break;
 
                 case 3:
                     Animalview.setImageResource(R.drawable.small_rhino);
+                    break;
 
                 case 4:
                     Animalview.setImageResource(R.drawable.small_horse);
+                    break;
 
                 case 5:
                     Animalview.setImageResource(R.drawable.small_zebra);
+                    break;
+
             }
         }
         btnStart.setOnClickListener(new View.OnClickListener() {
