@@ -125,9 +125,9 @@ public class SignInActivity extends AppCompatActivity {
                 Toast.makeText(SignInActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
 
                 // Chuyển sang layout hướng dẫn
-//                Intent intent = new Intent(SignInActivity.this, HuongdanActivity.class);
-//                startActivity(intent);
-//                finish();  // Finish SignInActivity to remove it from the back stack
+                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();  // Finish SignInActivity to remove it from the back stack
 
             } else {
                 Toast.makeText(SignInActivity.this, "Tài khoản không tồn tại", Toast.LENGTH_SHORT).show();

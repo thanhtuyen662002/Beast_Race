@@ -1,6 +1,7 @@
 package com.mini_project.beast_race;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -32,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private int[] currentProgress = new int[5];
     private boolean isRaceFinished = false;
     private ImageView guide;
-
+    // MediaPlayer
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +61,23 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+        // Initialize MediaPlayer
+        mediaPlayer = MediaPlayer.create(this, R.raw.welcome_music);
+//        btn_start.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startRace();
+//            }
+//        });
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+                    mediaPlayer.start();
+                }
                 startRace();
             }
-            });
+        });
         for (int i = 0; i < 5; i++) {
             final int index = i;
             checkBox[i].setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -79,50 +92,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-//        for (int i = 0; i < 5; i++) {
-//            final int index = i;
-//            bet[i].addTextChangedListener(new TextWatcher() {
-//                @Override
-//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                }
-//
-//                @Override
-//                public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                    String text = s.toString();
-//                    if (!text.equals("0")) {
-//                        isValueChanged[0] = true;
-//                    }
-//                }
-//
-//                @Override
-//                public void afterTextChanged(Editable s) {
-//                    String text = s.toString();
-//                    if (text.isEmpty()) {
-//                        isValueChanged[0] = false;
-//                    }
-//                }
-//            });
-//        }
-
-
-//        addAnimals();
-//        adapter = new CustomListViewAdapter(this, R.layout.activity_custom_list_view, animals, btn_start);
-//        listView.setAdapter(adapter);
-//        listView = (ListView) findViewById(R.id.custom_listView);
-
-
-        // Xử lý sự kiện cho các thành phần
-
     }
 
-//    private void addAnimals() {
-//        animals = new ArrayList<Animal>();
-//        animals.add(new Animal(1, "elephant", R.drawable.small_elephant));
-//        animals.add(new Animal(3, "horse", R.drawable.small_horse));
-//        animals.add(new Animal(4, "lion", R.drawable.small_lion));
-//        animals.add(new Animal(6, "rhino", R.drawable.small_rhino));
-//        animals.add(new Animal(8, "zebra", R.drawable.small_zebra));
-//    }
     private void startRace() {
         for (int i = 0; i < 5; i++) {
             final int index = i;
@@ -130,11 +101,14 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     if (!isRaceFinished && currentProgress[index] < 1000) {
+                        Log.e("STARTRACE", "random");
                         int randomIncrement = new Random().nextInt(5) + 1;
                         currentProgress[index] += randomIncrement;
                         seekBar[index].setProgress(currentProgress[index]);
                         if (currentProgress[index] >= 1000) {
+                            Log.e("STARTRACE", "endrandom");
                             isRaceFinished = true;
+                            stopMusic();
                             updateCurrentMoneyTextView();
                         } else {
                             handler[index].postDelayed(this, 100);
@@ -144,15 +118,21 @@ public class MainActivity extends AppCompatActivity {
             }, 100);
         }
     }
+    private void stopMusic() {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+        }
+    }
 
     private boolean checkRaceCompletion() {
-        for (int i = 0; i < 5; i++){
+        for (int i = 0; i < 5; i++) {
             if (currentProgress[i] >= 1000) {
                 isRaceFinished = true;
             }
         }
         return isRaceFinished;
     }
+
     private void updateCurrentMoneyTextView() {
         EditText betAmount1 = findViewById(R.id.ed1);
         EditText betAmount2 = findViewById(R.id.ed2);
@@ -160,25 +140,27 @@ public class MainActivity extends AppCompatActivity {
         EditText betAmount4 = findViewById(R.id.ed4);
         EditText betAmount5 = findViewById(R.id.ed5);
         if (currentProgress[0] >= 1000) {
-            if (!betAmount1.getText().toString().isEmpty()){
+            if (!betAmount1.getText().toString().isEmpty()) {
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount1.getText().toString());
             }
         } else if (currentProgress[1] >= 1000) {
-            if (!betAmount1.getText().toString().isEmpty()){
+            if (!betAmount2.getText().toString().isEmpty()) {
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount2.getText().toString());
             }
         } else if (currentProgress[2] >= 1000) {
-            if (!betAmount1.getText().toString().isEmpty()){
+            if (!betAmount3.getText().toString().isEmpty()) {
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount3.getText().toString());
             }
         } else if (currentProgress[3] >= 1000) {
-            if (!betAmount1.getText().toString().isEmpty()){
+            if (!betAmount4.getText().toString().isEmpty()) {
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount4.getText().toString());
             }
         } else if (currentProgress[4] >= 1000) {
-            if (!betAmount1.getText().toString().isEmpty()){
+            if (!betAmount5.getText().toString().isEmpty()) {
                 currentMoneyAfter += 2 * Integer.parseInt(betAmount5.getText().toString());
             }
+        } else {
+            return;
         }
         point.setText(currentMoneyAfter + "");
     }
